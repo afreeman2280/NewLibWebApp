@@ -1,0 +1,40 @@
+﻿@model NewLibWebApp.Models.BookViewModel
+@using NewLibWebApp.Models
+@{
+    ViewBag.Title = "UpdateBook";
+}
+
+<h2>Update Book</h2>
+ @using (Html.BeginForm("UpdateBook", "Book", FormMethod.Post))
+{
+    
+    @Html.HiddenFor(m => m.SingleBook.ID)
+
+
+    <div>
+
+            @Html.HiddenFor(m => m.SingleBook.ID)
+           
+
+           
+            @Html.LabelFor(m => m.SingleBook.Bookname)
+            @Html.TextBoxFor(m => m.SingleBook.Bookname, new { @class = "DivTextBoxPlaceMent" })
+
+            
+
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.SingleBook.ID)
+            @Html.LabelFor(m => m.SingleBook.Author)
+            @Html.TextBoxFor(m => m.SingleBook.Author, new { @class = "DivTextBoxPlaceMent" })
+
+
+            
+
+        </div>
+
+
+        <input type="Submit" value="Submit" />
+ 
+}
+      

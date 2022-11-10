@@ -1,0 +1,40 @@
+﻿@model NewLibWebApp.Models.UserViewModel
+@using Microsoft.AspNetCore.Http
+@using NewLibWebApp.Models
+@{
+    ViewData["Title"] = "ViewUsers";
+}
+
+<h1>ViewUsers</h1>
+
+<div>
+
+
+
+    <table class="table table-responsive">
+        <tr>
+            <th>Id</th>
+            <th>UserName</th>
+            <th>Password</th>
+            <th>User Role</th>
+            @foreach (UserModel user in Model.AllUsers)
+            {
+
+            <tr>
+                <td>@Html.DisplayFor(m =>user.ID)</td>
+                <td>@Html.DisplayFor(m => user.UserName)</td>
+                <td>@Html.DisplayFor(m => user.password)</td>
+                <td>@Html.DisplayFor(m => user.RoleId)</td>
+                    @if (Context.Session.GetInt32("Id") >= 3)
+                    {
+                <td>@Html.ActionLink("Update User", "UpdateUser", "User", routeValues: new { UserId = user.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
+                <td>@Html.ActionLink("Remove User", "RemoveUser", "User", routeValues: new { UserId = user.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large",onclick = "return confirm('Are you sure you want to delete this Item?')" })</td>
+                    }
+            </tr>
+            }
+
+    </table>
+    @Html.ActionLink("Add User", "Register", "User", htmlAttributes: new { @class = "btn btn-primary btn-large" })
+
+</div>
+

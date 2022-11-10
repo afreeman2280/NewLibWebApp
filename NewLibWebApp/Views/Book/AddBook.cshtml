@@ -1,0 +1,28 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@model NewLibWebApp.Models.BookViewModel
+
+<h1>Add Book</h1>
+
+
+@using (Html.BeginForm("AddBook", "Book", FormMethod.Post))
+{
+
+
+
+    <div class="TextBoxPosition">
+        <div>
+            @Html.LabelFor(m => m.SingleBook.Bookname)
+
+            @Html.TextBoxFor(m => m.SingleBook.Bookname, new { @class = "DivTextBoxPlaceMent" })
+            @Html.ValidationMessageFor(m => m.SingleBook.Bookname)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.SingleBook.Author)
+
+            @Html.PasswordFor(m => m.SingleBook.Author, new { @class = "DivTextBoxPlaceMentforPassword" })
+            @Html.ValidationMessageFor(m => m.SingleBook.Author)
+        </div>
+        <input type="Submit" value="Submit" />
+    </div>
+}

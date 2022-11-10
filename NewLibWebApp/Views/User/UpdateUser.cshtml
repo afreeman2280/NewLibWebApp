@@ -1,0 +1,39 @@
+﻿@model NewLibWebApp.Models.UserViewModel
+@using NewLibWebApp.Models
+@{
+    ViewBag.Title = "UpdateUser";
+}
+
+<h2>Update User</h2>
+@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
+{
+
+    @Html.HiddenFor(m => m.SingleUser.ID)
+
+
+    <div>
+
+        @Html.HiddenFor(m => m.SingleUser.ID)
+
+
+
+        @Html.LabelFor(m => m.SingleUser.UserName)
+        @Html.TextBoxFor(m => m.SingleUser.UserName, new { @class = "DivTextBoxPlaceMent" })
+
+
+
+    </div>
+    <div>
+        @Html.HiddenFor(m => m.SingleUser.ID)
+        @Html.LabelFor(m => m.SingleUser.password)
+        @Html.TextBoxFor(m => m.SingleUser.password, new { @class = "DivTextBoxPlaceMent" })
+
+
+
+
+    </div>
+
+
+    <input type="Submit" value="Submit" />
+
+}

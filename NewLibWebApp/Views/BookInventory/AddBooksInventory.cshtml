@@ -1,0 +1,46 @@
+﻿@model NewLibWebApp.Models.BookInventoryViewModel
+@using NewLibWebApp.Models
+@{
+    ViewBag.Title = "Check out";
+}
+
+<h2>Check out</h2>
+
+@using (Html.BeginForm("AddBooksInventory", "BookInventory", FormMethod.Post))
+{
+        @foreach (BookInventory Book in Model.AllBooks)
+        {
+            <div>
+                @Html.DisplayFor(m => Book.ID)
+
+            </div>
+
+            <div>
+                @Html.DisplayFor(m => Book.UserId)
+
+            </div>
+
+            <div> Catagory: @Html.DisplayFor(m => Book.BookId)
+
+
+
+            </div>
+        <div>
+            Catagory: @Html.DisplayFor(m => Book.CheckedIn)
+
+        </div>
+    <div>Description: @Html.DisplayFor(m => Book.checkInTime)</div>
+    <div>Description: @Html.DisplayFor(m => Book.checkOutTime)</div>
+    @if(Book.CheckedIn == true){
+            <input type="Submit" value="Check In" />
+        }
+    else{
+            <input type="Submit" disabled value="Check In" />
+
+    }
+
+
+    }
+
+}
+

@@ -1,0 +1,40 @@
+﻿@model NewLibWebApp.Models.BookInventoryViewModel
+@using NewLibWebApp.Models
+@{
+    ViewData["Title"] = "ViewBookInventory";
+}
+
+<h1>Books Inventory</h1>
+
+<div>
+
+
+
+    <table class="table table-responsive">
+        <tr>
+            <th>Id</th>
+            <th>User ID</th>
+            <th>Book ID</th>
+            <th>Book Checked In</th>
+            <th>Check In Time</th>
+            <th>Check Out Time</th>
+            @foreach (BookInventory book in Model.AllBooks)
+            {
+
+            <tr>
+                <td>@Html.DisplayFor(m =>book.ID)</td>
+                <td>@Html.DisplayFor(m => book.UserId)</td>
+                <td>@Html.DisplayFor(m => book.BookId)</td>
+                <td>@Html.DisplayFor(m => book.CheckedIn)</td>
+                <td>@Html.DisplayFor(m => book.checkInTime)</td>
+                <td>@Html.DisplayFor(m => book.checkOutTime)</td>
+
+
+
+            </tr>
+
+            }
+
+    </table>
+
+</div>

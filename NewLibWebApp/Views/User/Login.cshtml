@@ -1,0 +1,29 @@
+﻿@model NewLibWebApp.Models.UserViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
+{
+    <div class="DivTextBoxPosition">
+
+        <span>@ViewBag.LoginError</span>
+
+        <div>
+            @Html.LabelFor(m => m.SingleUser.UserName)
+            @Html.TextBoxFor(m => m.SingleUser.UserName, new { @class = "TextBoxPosition" })
+            @Html.ValidationMessageFor(m => m.SingleUser.UserName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.SingleUser.password)
+            @Html.PasswordFor(m => m.SingleUser.password, new { @class = "DivTextBoxPlaceMentforLoginPassword" })
+            @Html.ValidationMessageFor(m => m.SingleUser.password)
+
+        </div>
+
+        <input type="Submit" value="Submit" />
+    </div>
+
+}
