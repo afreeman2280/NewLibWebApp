@@ -5,35 +5,42 @@
 }
 
 <h2>Update User</h2>
-@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
+ @using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
 {
+    
+    @Html.HiddenFor(mbox  => mbox.SingleUser.ID)
 
-    @Html.HiddenFor(m => m.SingleUser.ID)
+        <div>
 
+            @Html.HiddenFor(m => m.SingleUser.UserName)
+            @Html.LabelFor(m => m.SingleUser.UserName)
+            @Html.TextBoxFor(m => m.SingleUser.UserName, new { @class = "DivTextBoxPlaceMent" })
 
-    <div>
+            
 
-        @Html.HiddenFor(m => m.SingleUser.ID)
-
-
-
-        @Html.LabelFor(m => m.SingleUser.UserName)
-        @Html.TextBoxFor(m => m.SingleUser.UserName, new { @class = "DivTextBoxPlaceMent" })
-
-
-
-    </div>
-    <div>
-        @Html.HiddenFor(m => m.SingleUser.ID)
-        @Html.LabelFor(m => m.SingleUser.password)
-        @Html.TextBoxFor(m => m.SingleUser.password, new { @class = "DivTextBoxPlaceMent" })
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.SingleUser.ID)
+            @Html.LabelFor(m => m.SingleUser.password)
+            @Html.TextBoxFor(m => m.SingleUser.password, new { @class = "DivTextBoxPlaceMent" })
 
 
+            
+
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.SingleUser.ID)
+            @Html.LabelFor(m => m.SingleUser.RoleId)
+            @Html.TextBoxFor(m => m.SingleUser.RoleId, new { @class = "DivTextBoxPlaceMent" })
 
 
-    </div>
 
 
-    <input type="Submit" value="Submit" />
+        </div>
 
+
+
+        <input type="Submit" value="Submit" />
+ 
 }
+      

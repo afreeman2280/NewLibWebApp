@@ -9,6 +9,7 @@ namespace NewLibWebApp.Controllers
 {
     public class UserController : Controller
     {
+        int x;
         BLLUser user = new BLLUser();
         // GET: UserController
         public ActionResult Index()
@@ -88,6 +89,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult UpdateUser(int UserID)
         {
             BLLUser _bll = new BLLUser();
+            x = UserID;
             BLLUser storedUser = _bll.getUser(UserID);
             UserViewModel User = Map(storedUser);
             return View(User);
@@ -123,7 +125,7 @@ namespace NewLibWebApp.Controllers
             List<BLLUser> User = _bll.getAllUser();
             viewModel.AllUsers = Mapper(User);
             UserViewModel UserVM = Map(storedUser);
-            return RedirectToAction("ViewUser", "User");
+            return RedirectToAction("ViewUsers", "User");
         }
         [HttpPost]
         public ActionResult RemoveUser(UserViewModel UserToBeRemoved)

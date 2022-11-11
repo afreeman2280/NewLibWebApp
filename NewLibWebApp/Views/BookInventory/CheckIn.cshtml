@@ -30,13 +30,13 @@
         </div>
         <div>Description: @Html.DisplayFor(m => Book.checkInTime)</div>
         <div>Description: @Html.DisplayFor(m => Book.checkOutTime)</div>
-        @if (Book.CheckedIn == false)
+        @if (Book.CheckedIn == true)
         {
-            <input type="Submit" value="Check Out" />
+            <input type="Submit" value="Check In" />
         }
         else
         {
-            <input type="Submit" disabled value="Check Out" />
+            <input type="Submit" disabled value="Check In" />
 
         }
 

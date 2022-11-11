@@ -56,6 +56,17 @@ namespace BusinessLogicClassLibrary
         {
             inventory.Checkin(BookId, UserId);
         }
+        public BLLBookInventory getBookInventory(int userId)
+        {
+            return Map(inventory.GetBookInventory(userId));
+        }
+        public void RemoveBookInventory(int userID,int bookId)
+        {
+
+            // DABook dABook = Map(Book);
+            inventory.removeBookInventory(userID,bookId);
+
+        }
         public void checkedInInventory(BLLBookInventory book)
         {
              inventory.Checkin(book.BookId,book.UserId);

@@ -63,8 +63,8 @@ namespace DALLib
                                     BookId = (int)reader["BookId"],
                                     UserId = (int)reader["UserId"],
                                     CheckedIn = (bool)(reader)["CheckedOut"],
-                                    checkintime = (DateTime)(reader)["CheckedInTime"],
-                                    checkOut = (DateTime)(reader)["CheckedOutTime"],
+                                  //  checkintime = (DateTime)(reader)["CheckedInTime"],
+                                  //  checkOut = (DateTime)(reader)["CheckedOutTime"],
 
 
                                 };
@@ -221,7 +221,7 @@ namespace DALLib
                         command.Parameters.Add(new SqlParameter("@BookId", SqlDbType.Int)).Value = dABookInventory.BookId;
                         command.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = dABookInventory.UserId;
                         command.Parameters.Add(new SqlParameter("@CheckedOut", SqlDbType.Bit)).Value = 1;
-                        command.Parameters.Add(new SqlParameter("@CheckedOutTime", SqlDbType.DateTime)).Value = DateTime.Now;
+                       // command.Parameters.Add(new SqlParameter("@CheckedOutTime", SqlDbType.DateTime)).Value = DateTime.Now;
                         command.ExecuteNonQuery();
                     }
                 }
@@ -232,7 +232,76 @@ namespace DALLib
             }
 
         }
+        public void removeBookInventory(int userId,int bookId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand command = new SqlCommand("removeBookInventory", con))
+                    {
+                        con.Open();
 
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = userId;
+                        command.Parameters.Add(new SqlParameter("@BookId", SqlDbType.Int)).Value = bookId;
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                insertErrorLog(ex);
+            }
+
+        }
+        public DABookInventory GetBookInventory(int userId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("GetBookInventory", con))
+                    {
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = userId;
+
+
+                        cmd.CommandTimeout = 30;
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                Book = new DABookInventory
+                                {
+                                    ID = (int)reader["Id"],
+                                    BookId = (int)reader["BookId"],
+                                    UserId = (int)reader["UserId"],
+                                    CheckedIn = (bool)(reader)["CheckedOut"],
+                                    // Role = reader["RoleID"] is DBNull ? 1 : (int)reader["RoleID"],
+
+
+                                };
+
+                            }
+                        }
+
+                    }
+                }
+
+                return Book;
+            }
+            catch (Exception ex)
+            {
+                insertErrorLog(ex);
+                return new DABookInventory();
+            }
+
+        }
         public void Checkin(int BookId, int UserId)
         {
             try
@@ -246,8 +315,7 @@ namespace DALLib
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@BookId", SqlDbType.Int)).Value = BookId;
                         command.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = UserId;
-                        command.Parameters.Add(new SqlParameter("@CheckedOut", SqlDbType.Bit)).Value = 0;
-                        command.Parameters.Add(new SqlParameter("@CheckedInTime", SqlDbType.DateTime)).Value = DateTime.Now;
+                     //   command.Parameters.Add(new SqlParameter("@CheckedInTime", SqlDbType.DateTime)).Value = DateTime.Now;
 
 
                         command.ExecuteNonQuery();
@@ -273,7 +341,7 @@ namespace DALLib
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@BookId", SqlDbType.Int)).Value = dABookInventory.BookId;
                         command.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int)).Value = dABookInventory.UserId;
-                        command.Parameters.Add(new SqlParameter("@CheckedInTime", SqlDbType.DateTime)).Value = DateTime.Now;
+                     //   command.Parameters.Add(new SqlParameter("@CheckedInTime", SqlDbType.DateTime)).Value = DateTime.Now;
 
 
                         command.ExecuteNonQuery();

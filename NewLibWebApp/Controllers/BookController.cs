@@ -86,7 +86,7 @@ namespace NewLibWebApp.Controllers
             List<BLLBook> book = _bll.getAllBook();
             viewModel.AllBooks = Mapper(book);
             BookViewModel bookVM = Map(storedBook);
-            return RedirectToAction("ViewBook", "Book");
+            return RedirectToAction("ViewBooks", "Book");
         }
         [HttpPost]
         public ActionResult RemoveBook(BookViewModel BookToBeRemoved)

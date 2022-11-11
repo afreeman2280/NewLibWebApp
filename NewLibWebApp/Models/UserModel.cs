@@ -5,7 +5,7 @@ namespace NewLibWebApp.Models
 {
     public class UserModel
     {
-       public int ID;
+       public int ID { get; set; }
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "The User Name is required")]
         public   string UserName { get; set; }
