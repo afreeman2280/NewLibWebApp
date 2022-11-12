@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using CommonLib;
 using System.Net;
 
 namespace DALLib
@@ -10,14 +11,8 @@ namespace DALLib
     public class DABookInventory
     {
 
-        public int ID;
-        public int UserId { get; set; }
-        public int BookId { get; set; }
-        public bool CheckedIn { get; set; }
-        public DateTime checkintime { get; set; }
-        public DateTime checkOut { get;set; }
 
-        DABookInventory Book;
+        BookInventory Book;
         string connectionString = "Data Source=GDC-LAPTOP-308;Initial Catalog=Libary;Integrated Security=True";
 
         //  string connectionString = ConfigurationManager.ConnectionStrings["DBCONN"].ConnectionString;
@@ -25,22 +20,13 @@ namespace DALLib
 
         public DABookInventory()
         {
-            this.ID = 0;
-            this.UserId = 0;
-            this.BookId = 0;
-            this.CheckedIn = false;
-        }
-        public DABookInventory(int iD, int userId, int bookId, bool checkedIn)
-        {
-            this.ID = iD;
-            this.UserId = userId;
-            this.BookId = bookId;
-            this.CheckedIn = checkedIn;
+            
         }
 
-        public List<DABookInventory> GetAllBookInventory()
+
+        public List<BookInventory> GetAllBookInventory()
         {
-            List<DABookInventory> list = new List<DABookInventory>();
+            List<BookInventory> list = new List<BookInventory>();
 
             try
             {
@@ -53,11 +39,11 @@ namespace DALLib
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            DABookInventory Book;
+                            BookInventory Book;
 
                             while (reader.Read())
                             {
-                                Book = new DABookInventory
+                                Book = new BookInventory
                                 {
                                     ID = (int)reader["Id"],
                                     BookId = (int)reader["BookId"],
@@ -81,11 +67,11 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new List<DABookInventory>();
+                return new List<BookInventory>();
             }
 
         }
-        public DABookInventory GetUserCheckedOutBooks(int Id)
+        public BookInventory GetUserCheckedOutBooks(int Id)
         {
             try
             {
@@ -105,7 +91,7 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                Book = new DABookInventory
+                                Book = new BookInventory
                                 {
                                     ID = (int)reader["Id"],
                                     BookId = (int)reader["BookId"],
@@ -127,14 +113,14 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DABookInventory();
+                return new BookInventory();
             }
 
         }
     
-        public List<DABookInventory> Test(int Bookid,int userid)
+        public List<BookInventory> Test(int Bookid,int userid)
         {
-            List<DABookInventory> list = new List<DABookInventory>();
+            List<BookInventory> list = new List<BookInventory>();
 
             try
             {
@@ -150,11 +136,11 @@ namespace DALLib
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            DABookInventory Book;
+                            BookInventory Book;
 
                             while (reader.Read())
                             {
-                                Book = new DABookInventory
+                                Book = new BookInventory
                                 {
                                     ID = (int)reader["Id"],
                                     BookId = (int)reader["BookId"],
@@ -178,7 +164,7 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new List<DABookInventory>();
+                return new List<BookInventory>();
             }
 
         }
@@ -207,7 +193,7 @@ namespace DALLib
 
         }
 
-        public void AddToBookInventory(DABookInventory dABookInventory)
+        public void AddToBookInventory(BookInventory dABookInventory)
         {
             try
             {
@@ -255,7 +241,7 @@ namespace DALLib
             }
 
         }
-        public DABookInventory GetBookInventory(int userId)
+        public BookInventory GetBookInventory(int userId)
         {
             try
             {
@@ -276,7 +262,7 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                Book = new DABookInventory
+                                Book = new BookInventory
                                 {
                                     ID = (int)reader["Id"],
                                     BookId = (int)reader["BookId"],
@@ -298,7 +284,7 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DABookInventory();
+                return new BookInventory();
             }
 
         }
@@ -328,7 +314,7 @@ namespace DALLib
             }
 
         }
-        public void Checkin(DABookInventory dABookInventory)
+        public void Checkin(BookInventory dABookInventory)
         {
             try
             {

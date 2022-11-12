@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CommonLib;
 using DALLib;
 
 namespace BLLibary
@@ -9,7 +10,7 @@ namespace BLLibary
     {
         int ID;
         string RoleName;
-        BLLRole bLLRole;
+        Role bLLRole;
 
         public BLLRole()
         {
@@ -24,15 +25,9 @@ namespace BLLibary
         public string getRole(int iD)
         {
             DARole dARole = new DARole();   
-           bLLRole= Map(dARole.GetRole(iD));
+           bLLRole= dARole.GetRole(iD);
             return bLLRole.RoleName;
         }
-        public BLLRole Map(DARole dARole)
-        {
-            bLLRole = new BLLRole();
-            bLLRole.ID = dARole.ID;
-            bLLRole.RoleName = dARole.RoleName;
-            return bLLRole;
-        }
+      
     }
 }

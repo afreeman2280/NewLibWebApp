@@ -6,10 +6,10 @@ namespace NewLibWebApp.Models
     {
         public BookInventoryViewModel()
         {
-            SingleBook = new BookInventory();
-            AllBooks = new List<BookInventory>();
+            SingleBook = new BookInventoryModel();
+            AllBooks = new List<BookInventoryModel>();
         }
-        public BookInventory SingleBook { get; set; }
-        public List<BookInventory> AllBooks { get; set; }
+        public BookInventoryModel SingleBook { get; set; }
+        public List<BookInventoryModel> AllBooks { get; set; }
     }
 }

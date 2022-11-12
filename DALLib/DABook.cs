@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using CommonLib;
 using System.Data.SqlClient;
 using System.IO;
 
@@ -11,11 +12,7 @@ namespace DALLib
     public class DABook
     {
       
-       public int ID;
-      public  string BookName { get; set; }
-       public  string Author { get; set; }
-        public int Role { get; set; }
-        DABook Book;
+        Book Book;
         string connectionString = "Data Source=GDC-LAPTOP-308;Initial Catalog=Libary;Integrated Security=True";
 
       //  string connectionString = ConfigurationManager.ConnectionStrings["DBCONN"].ConnectionString;
@@ -23,20 +20,11 @@ namespace DALLib
 
         public DABook()
         {
-            ID = 0;
-            BookName = string.Empty;
-            Author = string.Empty;
-        }
-        public DABook(int iD, string BookName, string Author)
-        {
-            this.ID = iD;
-            this.BookName = BookName;
-            this.Author = Author;
         }
 
-        public List<DABook> GetAllBook()
+        public List<Book> GetAllBook()
         {
-            List<DABook> list = new List<DABook>();
+            List<Book> list = new List<Book>();
 
             try
             {
@@ -49,11 +37,11 @@ namespace DALLib
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            DABook Book;
+                            Book Book;
 
                             while (reader.Read())
                             {
-                                Book = new DABook
+                                Book = new Book
                                 {
                                     ID = (int)reader["Id"],
                                     BookName = (string)reader["Bookname"],
@@ -75,11 +63,11 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex); 
-                return new List<DABook>();
+                return new List<Book>();
             }
 
         }
-        public DABook GetBook(int Id)
+        public Book GetBook(int Id)
         {
             try
             {
@@ -99,12 +87,11 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                Book = new DABook
+                                Book = new Book
                                 {
                                     ID = (int)reader["Id"],
                                     BookName = (string)reader["Bookname"],
                                     Author = (string)reader["Author"],
-                                   // Role = reader["RoleID"] is DBNull ? 1 : (int)reader["RoleID"],
 
 
                                 };
@@ -120,7 +107,7 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DABook();
+                return new Book();
             }
 
         }
@@ -169,7 +156,7 @@ namespace DALLib
             }
 
         }
-        public void updateBook(DABook book, int BookToBeUpdated)
+        public void updateBook(Book book, int BookToBeUpdated)
         {
             SqlConnection lConnection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("UpdateBookByBookID", lConnection);

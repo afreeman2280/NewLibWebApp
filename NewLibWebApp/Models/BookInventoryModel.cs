@@ -2,7 +2,7 @@
 
 namespace NewLibWebApp.Models
 {
-    public class BookInventory
+    public class BookInventoryModel
     {
         public int ID { get; set; }
 

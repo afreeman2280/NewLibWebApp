@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using CommonLib;
 using NewLibWebApp.Models;
 
 namespace NewLibWebApp.Controllers
@@ -21,7 +22,7 @@ namespace NewLibWebApp.Controllers
             BookViewModel viewModel = new BookViewModel();
 
             viewModel.AllBooks = new List<BookModel>();
-            List<BLLBook> boBooks = Book.getAllBook();
+            List<Book> boBooks = Book.getAllBook();
             viewModel.AllBooks = Mapper(boBooks);
             return View(viewModel);
         }
@@ -35,7 +36,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult AddBook(BookViewModel BookVm)
         {
             BLLBook _Bll = new BLLBook();
-            BLLBook boBook = Map(BookVm);
+            Book boBook = Map(BookVm);
             string actionResult = "ViewBooks";
             string controller = "Book";
             _Bll.addBook(boBook);
@@ -53,7 +54,7 @@ namespace NewLibWebApp.Controllers
         {
             BLLBook _bll = new BLLBook();
             bookId = BookID;
-            BLLBook storedBook = _bll.getBook(BookID);
+            Book storedBook = _bll.getBook(BookID);
             BookViewModel book = Map(storedBook);
             return View(book);
         }
@@ -63,7 +64,7 @@ namespace NewLibWebApp.Controllers
             BLLBook _Bll = new BLLBook();
             string actionResult = "ViewBooks";
             string controller = "Book";
-            BLLBook boHardware = Map(BookTobeUpdated);
+            Book boHardware = Map(BookTobeUpdated);
 
             _Bll.UpdateBook(boHardware, BookTobeUpdated.SingleBook.ID);
             if (ModelState.IsValid == false)
@@ -81,9 +82,9 @@ namespace NewLibWebApp.Controllers
             BookViewModel viewModel = new BookViewModel();
 
 
-            BLLBook storedBook = _bll.getBook(BookId);
+            Book storedBook = _bll.getBook(BookId);
             _bll.RemoveBook(storedBook.ID);
-            List<BLLBook> book = _bll.getAllBook();
+            List<Book> book = _bll.getAllBook();
             viewModel.AllBooks = Mapper(book);
             BookViewModel bookVM = Map(storedBook);
             return RedirectToAction("ViewBooks", "Book");
@@ -97,10 +98,10 @@ namespace NewLibWebApp.Controllers
             viewModel.AllBooks = new List<BookModel>();
             string actionResult = "ViewBooks";
             string controller = "Book";
-            BLLBook storedBook = _Bll.getBook(BookToBeRemoved.SingleBook.ID);
+            Book storedBook = _Bll.getBook(BookToBeRemoved.SingleBook.ID);
             _Bll.RemoveBook(storedBook.ID);
             viewModel.AllBooks = new List<BookModel>();
-            List<BLLBook> boBook = _Bll.getAllBook();
+            List<Book> boBook = _Bll.getAllBook();
             viewModel.AllBooks = Mapper(boBook);
 
 
@@ -108,47 +109,47 @@ namespace NewLibWebApp.Controllers
             return RedirectToAction(actionResult, controller);
 
         }
-        public List<BookViewModel> Map(List<BLLBook> dABooks)
+        public List<BookViewModel> Map(List<Book> dABooks)
         {
             List<BookViewModel> BookList = new List<BookViewModel>();
 
-            foreach (BLLBook dABook in dABooks)
+            foreach (Book dABook in dABooks)
             {
                 BookViewModel Book = new BookViewModel();
                 Book.SingleBook.ID = dABook.ID;
-                Book.SingleBook.Bookname = dABook.Bookname;
+                Book.SingleBook.Bookname = dABook.BookName;
                 Book.SingleBook.Author = dABook.Author;
                 BookList.Add(Book);
             }
             return BookList;
         }
-        public List<BookModel> Mapper(List<BLLBook> dABooks)
+        public List<BookModel> Mapper(List<Book> dABooks)
         {
             List<BookModel> BookList = new List<BookModel>();
 
-            foreach (BLLBook dABook in dABooks)
+            foreach (Book dABook in dABooks)
             {
                 BookModel Book = new BookModel();
                 Book.ID = dABook.ID;
-                Book.Bookname = dABook.Bookname;
+                Book.Bookname = dABook.BookName;
                 Book.Author = dABook.Author;
                 BookList.Add(Book);
             }
             return BookList;
         }
-        public BookViewModel Map(BLLBook dABook)
+        public BookViewModel Map(Book dABook)
         {
             BookViewModel Book = new BookViewModel();
             Book.SingleBook.ID = dABook.ID;
-            Book.SingleBook.Bookname = dABook.Bookname;
+            Book.SingleBook.Bookname = dABook.BookName;
             Book.SingleBook.Author = dABook.Author;
             return Book;
         }
-        public BLLBook Map(BookViewModel dABook)
+        public Book Map(BookViewModel dABook)
         {
-            BLLBook Book = new BLLBook();
+            Book Book = new Book();
             Book.ID = dABook.SingleBook.ID;
-            Book.Bookname = dABook.SingleBook.Bookname;
+            Book.BookName = dABook.SingleBook.Bookname;
             Book.Author = dABook.SingleBook.Author;
             return Book;
         }

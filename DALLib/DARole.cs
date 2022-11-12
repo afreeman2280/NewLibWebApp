@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using CommonLib;
 using System.Text;
 using DALLib;
 using System.Configuration;
@@ -13,7 +14,7 @@ namespace DALLib
     {
         public int ID;
        public string RoleName;
-        public DARole role;
+        public Role role;
         //string connectionString = ConfigurationManager.ConnectionStrings["DBCONN"].ConnectionString;
         string connectionString = "Data Source=GDC-LAPTOP-308;Initial Catalog=Libary;Integrated Security=True";
 
@@ -28,7 +29,7 @@ namespace DALLib
             this.ID = id;
             this.RoleName = role;
         }
-        public DARole GetRole(int Id)
+        public Role GetRole(int Id)
         {
             try
             {
@@ -48,7 +49,7 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                role = new DARole
+                                role = new Role
                                 {
                                     ID = (int)reader["Id"],
                                     RoleName = (string)reader["Rolename"],
@@ -67,7 +68,7 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DARole();
+                return new Role();
             }
 
         }

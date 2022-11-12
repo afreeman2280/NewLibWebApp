@@ -3,44 +3,26 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using CommonLib;
 using System.IO;
 
 namespace DALLib
 {
     public class DAUser
     {
-        public enum Roles
-        {
-            guest,
-            administrator,
-            librarian,
-            patron
-        }
-        public int ID;
-        public string UserName { get; set; }
-        public string password { get; set; }
-        public int Role { get; set; }
-        DAUser User;
+       
+        User User;
         public DAUser()
         {
-            ID = 0;
-            UserName = string.Empty;
-            password = string.Empty;
-            Role = 1;
+           
         }
-        public DAUser(int iD, string userName, int role, string password)
-        {
-            this.ID = iD;
-            this.UserName = userName;
-            this.password = password;
-            this.Role = role;
-        }
+       
         //  string connectionString = ConfigurationManager.ConnectionStrings["DBCONN"].ConnectionString;
         string connectionString = "Data Source=GDC-LAPTOP-308;Initial Catalog=Libary;Integrated Security=True";
 
-        public List<DAUser> GetAllUser()
+        public List<User> GetAllUser()
         {
-            List<DAUser> list = new List<DAUser>();
+            List<User> list = new List<User>();
 
 
             try
@@ -54,11 +36,11 @@ namespace DALLib
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            DAUser user;
+                            User user;
 
                             while (reader.Read())
                             {
-                                user = new DAUser
+                                user = new User
                                 {
                                     ID = reader["Id"] is DBNull ? 0 : (int)reader["Id"],
                                     UserName = (string)reader["Username"],
@@ -80,11 +62,11 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new List<DAUser>();
+                return new List<User>();
             }
 
         }
-        public DAUser GetUser(int Id)
+        public User GetUser(int Id)
         {
             try
             {
@@ -104,7 +86,7 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                User = new DAUser
+                                User = new User
                                 {
                                     ID = (int)reader["Id"],
                                     UserName = (string)reader["Username"],
@@ -125,11 +107,11 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DAUser();
+                return new User();
             }
 
         }
-        public void updateUser(DAUser User, int UserToBeUpdated)
+        public void updateUser(User User, int UserToBeUpdated)
         {
             SqlConnection lConnection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("UpdateUserByUserID", lConnection);
@@ -150,7 +132,7 @@ namespace DALLib
                 insertErrorLog(ex);
             }
         }
-        public DAUser GetUserByUsername(string username)
+        public User GetUserByUsername(string username)
         {
             try
             {
@@ -170,7 +152,7 @@ namespace DALLib
 
                             while (reader.Read())
                             {
-                                User = new DAUser
+                                User = new User
                                 {
                                     ID = (int)reader["Id"],
                                     UserName = (string)reader["Username"],
@@ -191,7 +173,7 @@ namespace DALLib
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new DAUser();
+                return new User();
             }
 
         }

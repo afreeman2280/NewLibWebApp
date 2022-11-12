@@ -8,7 +8,7 @@
 
 @using (Html.BeginForm("AddBooksInventory", "BookInventory", FormMethod.Post))
 {
-        @foreach (BookInventory Book in Model.AllBooks)
+        @foreach (BookInventoryModel Book in Model.AllBooks)
         {
             <div>
                 @Html.DisplayFor(m => Book.ID)

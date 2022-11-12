@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BLLLibary\BLLLibary.csproj" />
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj" />
   </ItemGroup>
 
 </Project>
