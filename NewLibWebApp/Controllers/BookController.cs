@@ -10,6 +10,7 @@ namespace NewLibWebApp.Controllers
     public class BookController : Controller
     {
         int bookId;
+        Mapper mapper;
         BLLBook Book = new BLLBook();
         // GET: BookController
         public ActionResult Index()
@@ -23,7 +24,7 @@ namespace NewLibWebApp.Controllers
 
             viewModel.AllBooks = new List<BookModel>();
             List<Book> boBooks = Book.getAllBook();
-            viewModel.AllBooks = Mapper(boBooks);
+            viewModel.AllBooks = mapper.Mapp(boBooks);
             return View(viewModel);
         }
 
@@ -36,7 +37,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult AddBook(BookViewModel BookVm)
         {
             BLLBook _Bll = new BLLBook();
-            Book boBook = Map(BookVm);
+            Book boBook = mapper.Map(BookVm);
             string actionResult = "ViewBooks";
             string controller = "Book";
             _Bll.addBook(boBook);
@@ -55,7 +56,7 @@ namespace NewLibWebApp.Controllers
             BLLBook _bll = new BLLBook();
             bookId = BookID;
             Book storedBook = _bll.getBook(BookID);
-            BookViewModel book = Map(storedBook);
+            BookViewModel book = mapper.Map(storedBook);
             return View(book);
         }
         [HttpPost]
@@ -64,7 +65,7 @@ namespace NewLibWebApp.Controllers
             BLLBook _Bll = new BLLBook();
             string actionResult = "ViewBooks";
             string controller = "Book";
-            Book boHardware = Map(BookTobeUpdated);
+            Book boHardware = mapper.Map(BookTobeUpdated);
 
             _Bll.UpdateBook(boHardware, BookTobeUpdated.SingleBook.ID);
             if (ModelState.IsValid == false)
@@ -85,8 +86,8 @@ namespace NewLibWebApp.Controllers
             Book storedBook = _bll.getBook(BookId);
             _bll.RemoveBook(storedBook.ID);
             List<Book> book = _bll.getAllBook();
-            viewModel.AllBooks = Mapper(book);
-            BookViewModel bookVM = Map(storedBook);
+            viewModel.AllBooks = mapper.Mapp(book);
+            BookViewModel bookVM = mapper.Map(storedBook);
             return RedirectToAction("ViewBooks", "Book");
         }
         [HttpPost]
@@ -102,57 +103,14 @@ namespace NewLibWebApp.Controllers
             _Bll.RemoveBook(storedBook.ID);
             viewModel.AllBooks = new List<BookModel>();
             List<Book> boBook = _Bll.getAllBook();
-            viewModel.AllBooks = Mapper(boBook);
+            viewModel.AllBooks = mapper.Mapp(boBook);
 
 
 
             return RedirectToAction(actionResult, controller);
 
         }
-        public List<BookViewModel> Map(List<Book> dABooks)
-        {
-            List<BookViewModel> BookList = new List<BookViewModel>();
-
-            foreach (Book dABook in dABooks)
-            {
-                BookViewModel Book = new BookViewModel();
-                Book.SingleBook.ID = dABook.ID;
-                Book.SingleBook.Bookname = dABook.BookName;
-                Book.SingleBook.Author = dABook.Author;
-                BookList.Add(Book);
-            }
-            return BookList;
-        }
-        public List<BookModel> Mapper(List<Book> dABooks)
-        {
-            List<BookModel> BookList = new List<BookModel>();
-
-            foreach (Book dABook in dABooks)
-            {
-                BookModel Book = new BookModel();
-                Book.ID = dABook.ID;
-                Book.Bookname = dABook.BookName;
-                Book.Author = dABook.Author;
-                BookList.Add(Book);
-            }
-            return BookList;
-        }
-        public BookViewModel Map(Book dABook)
-        {
-            BookViewModel Book = new BookViewModel();
-            Book.SingleBook.ID = dABook.ID;
-            Book.SingleBook.Bookname = dABook.BookName;
-            Book.SingleBook.Author = dABook.Author;
-            return Book;
-        }
-        public Book Map(BookViewModel dABook)
-        {
-            Book Book = new Book();
-            Book.ID = dABook.SingleBook.ID;
-            Book.BookName = dABook.SingleBook.Bookname;
-            Book.Author = dABook.SingleBook.Author;
-            return Book;
-        }
+        
     }
 }
 

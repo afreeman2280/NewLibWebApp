@@ -16,7 +16,7 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    @Html.ActionLink("Nerd-Mart", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("The Libary App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                     @if (Context.Session.GetString("Username") == null)
                     {
 
@@ -42,7 +42,7 @@
                                      <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ViewUsers">View Users</a>
                                        }
                                      <a class="nav-link text-dark" asp-area="" asp-controller="BookInventory" asp-action="ViewBooksInventory">Book Inventory</a>
-                                 @Html.ActionLink("View Inventoyr", "ViewBooksInventory", "Book", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large",onclick = "return confirm('Are you sure you want to delete this Item?')" })
+                            @Html.ActionLink("View Inventory", "ViewUserBookInventory", "BookInventory", routeValues: new { id =Context.Session.GetInt32("Id") })
 
                                     </ul>
                                 </div>

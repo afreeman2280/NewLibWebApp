@@ -11,6 +11,7 @@ namespace NewLibWebApp.Controllers
     public class BookInventoryController : Controller
     {
         BLLBookInventory bookInventory = new BLLBookInventory();
+        Mapper mapper;
         // GET: BookInventoryController
         public ActionResult Index()
         {
@@ -37,12 +38,12 @@ namespace NewLibWebApp.Controllers
             return View(viewModel);
         }
         [HttpGet]
-        public ActionResult ViewAllBooksInventoryBookBookInventoryCheckOut(int id)
+        public ActionResult ViewUserBookInventory(int id)
         {
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
-
+            id = (int)HttpContext.Session.GetInt32("Id");
             viewModel.AllBooks = new List<BookInventoryModel>();
-            List<BookInventory> boBooks = bookInventory.getAllBookInventory();
+            List<BookInventory> boBooks = bookInventory.GetUserCheckedOutBooks(id);
             viewModel.AllBooks = Mapper(boBooks);
             return View(viewModel);
         }
@@ -62,7 +63,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult AddBooksInventory(BookInventoryViewModel BookVm)
         {
             BLLBookInventory _Bll = new BLLBookInventory();
-            BookInventory boBook = Map(BookVm);
+            BookInventory boBook = mapper.Map(BookVm);
             string actionResult = "ViewBooks";
             string controller = "Book";
             _Bll.addToBookInventory(boBook);
@@ -93,9 +94,9 @@ namespace NewLibWebApp.Controllers
         public ActionResult CheckIn(BookInventoryViewModel BookVm)
         {
             BLLBookInventory _Bll = new BLLBookInventory();
-            BookInventory boBook = Map(BookVm);
-            string actionResult = "ViewBooks";
-            string controller = "Book";
+            BookInventory boBook = mapper.Map(BookVm);
+            string actionResult = "ViewUserBookInventory";
+            string controller = "BookInventory";
             _Bll.checkedInInventory(boBook);
             if (ModelState.IsValid == false)
             {
@@ -122,16 +123,17 @@ namespace NewLibWebApp.Controllers
             return BookList;
         }
         [HttpGet]
-        public ActionResult RemoveBookInventory(int BookInventoryId)
+        public ActionResult RemoveBookInventory(int BookId)
         {
             BLLBookInventory _bll = new BLLBookInventory();
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
+            _bll.RemoveBookInventory((int)HttpContext.Session.GetInt32("Id"), BookId);
 
 
-            BookInventory storedBookInventory = _bll.getBookInventory(BookInventoryId);
+            BookInventory storedBookInventory = _bll.getBookInventory(BookId);
             List<BookInventory> BookInventory = _bll.getAllBookInventory();
             viewModel.AllBooks = Mapper(BookInventory);
-            return RedirectToAction("ViewBookInventorys", "BookInventory");
+            return RedirectToAction("ViewUserBookInventory", "BookInventory");
         }
         [HttpPost]
         public ActionResult RemoveBookInventory(BookInventoryViewModel BookInventoryToBeRemoved)
@@ -140,12 +142,12 @@ namespace NewLibWebApp.Controllers
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
 
             viewModel.AllBooks = new List<BookInventoryModel>();
-            string actionResult = "ViewBookInventory";
+            string actionResult = "ViewUserBookInventory";
             string controller = "BookInventory";
             BookInventory storedBookInventory = _Bll.getBookInventory(BookInventoryToBeRemoved.SingleBook.ID);
             _Bll.RemoveBookInventory(storedBookInventory.UserId,storedBookInventory.BookId);
             viewModel.AllBooks = new List<BookInventoryModel>();
-            List<BookInventory> boBookInventory = _Bll.getAllBookInventory();
+            List<BookInventory> boBookInventory = _Bll.GetUserCheckedOutBooks((int)HttpContext.Session.GetInt32("Id"));
             viewModel.AllBooks = Mapper(boBookInventory);
 
 
@@ -170,27 +172,8 @@ namespace NewLibWebApp.Controllers
             }
             return BookList;
         }
-        public BookInventoryViewModel Map(BookInventory dABook)
-        {
-            BookInventoryViewModel Book = new BookInventoryViewModel();
-            Book.SingleBook.ID = dABook.ID;
-            Book.SingleBook.UserId = dABook.UserId;
-            Book.SingleBook.BookId = dABook.BookId;
-            Book.SingleBook.CheckedIn = dABook.CheckedIn;
-            Book.SingleBook.checkInTime=dABook.checkintime;
-            Book.SingleBook.checkOutTime = dABook.checkOut;
-            return Book;
-        }
-        public BookInventory Map(BookInventoryViewModel dABook)
-        {
-            BookInventory Book = new BookInventory();
-            Book.ID = dABook.SingleBook.ID;
-            Book.UserId = dABook.SingleBook.UserId;
-            Book.BookId = dABook.SingleBook.BookId;
-            Book.CheckedIn = dABook.SingleBook.CheckedIn;
-            Book.checkintime = dABook.SingleBook.checkInTime;
-            Book.checkOut = dABook.SingleBook.checkOutTime;
-            return Book;
-        }
+ 
+
+
     }
 }

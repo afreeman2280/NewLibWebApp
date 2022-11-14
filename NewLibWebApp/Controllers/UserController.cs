@@ -10,6 +10,7 @@ namespace NewLibWebApp.Controllers
     public class UserController : Controller
     {
         int x;
+        Mapper mapper;
         BLLUser user = new BLLUser();
         // GET: UserController
         public ActionResult Index()
@@ -23,7 +24,7 @@ namespace NewLibWebApp.Controllers
 
             viewModel.AllUsers = new List<UserModel>();
             List<User> boUsers = user.getAllUser();
-            viewModel.AllUsers = Mapper(boUsers);
+            viewModel.AllUsers = mapper.Mapp(boUsers);
             return View(viewModel);
         }
         [HttpGet]
@@ -35,7 +36,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult Register(UserViewModel userVm)
         {
             string view = "Login";
-            User boUser = Map(userVm);
+            User boUser = mapper.Map(userVm);
             if (ModelState.IsValid == false)
             {
                 view = "Register";
@@ -59,7 +60,7 @@ namespace NewLibWebApp.Controllers
 
             string actionResult = "";
             string controller = "";
-            User boUser = Map(userVm);
+            User boUser = mapper.Map(userVm);
 
             User storedUser = user.getUserByUserName(userVm.SingleUser.UserName);
 
@@ -91,7 +92,7 @@ namespace NewLibWebApp.Controllers
             BLLUser _bll = new BLLUser();
             x = UserID;
             User storedUser = _bll.getUser(UserID);
-            UserViewModel User = Map(storedUser);
+            UserViewModel User = mapper.Map(storedUser);
             return View(User);
         }
         [HttpPost]
@@ -100,7 +101,7 @@ namespace NewLibWebApp.Controllers
             BLLUser _Bll = new BLLUser();
             string actionResult = "ViewUsers";
             string controller = "User";
-            User boUser = Map(UserTobeUpdated);
+            User boUser = mapper.Map(UserTobeUpdated);
 
             _Bll.UpdateUser(boUser, UserTobeUpdated.SingleUser.ID);
             if (ModelState.IsValid == false)
@@ -123,8 +124,8 @@ namespace NewLibWebApp.Controllers
             User storedUser = _bll.getUser(UserId);
             _bll.removeUser(storedUser.ID);
             List<User> User = _bll.getAllUser();
-            viewModel.AllUsers = Mapper(User);
-            UserViewModel UserVM = Map(storedUser);
+            viewModel.AllUsers = mapper.Mapp(User);
+            UserViewModel UserVM = mapper.Map(storedUser);
             return RedirectToAction("ViewUsers", "User");
         }
         [HttpPost]
@@ -140,62 +141,32 @@ namespace NewLibWebApp.Controllers
             _Bll.removeUser(storedUser.ID);
             viewModel.AllUsers = new List<UserModel>();
             List<User> boUser = _Bll.getAllUser();
-            viewModel.AllUsers = Mapper(boUser);
+            viewModel.AllUsers = mapper.Mapp(boUser);
 
 
 
             return RedirectToAction(actionResult, controller);
 
         }
-        public List<UserViewModel> Map(List<BLLUser> dAUsers)
+        public List<UserViewModel> Map(List<User> dAUsers)
         {
             List<UserViewModel> userList = new List<UserViewModel>();
 
-            foreach (BLLUser dAUser in dAUsers)
+            foreach (User dAUser in dAUsers)
             {
                 UserViewModel user = new UserViewModel();
                 user.SingleUser.ID = dAUser.ID;
                 user.SingleUser.UserName = dAUser.UserName;
                 user.SingleUser.password = dAUser.password;
-                user.SingleUser.RoleId = dAUser.RoleId;
-                userList.Add(user);
-            }
-            return userList;
-        }
-        public List<UserModel> Mapper(List<User> dAUsers)
-        {
-            List<UserModel> userList = new List<UserModel>();
-
-            foreach (User dAUser in dAUsers)
-            {
-                UserModel user = new UserModel();
-                user.ID = dAUser.ID;
-                user.UserName = dAUser.UserName;
-                user.password = dAUser.password;
-                user.RoleId = dAUser.Role;
+                user.SingleUser.RoleId = dAUser.Role;
                 userList.Add(user);
             }
             return userList;
         }
        
-        public UserViewModel Map(User dAUser)
-        {
-            UserViewModel user = new UserViewModel();
-            user.SingleUser.ID = dAUser.ID;
-            user.SingleUser.UserName = dAUser.UserName;
-            user.SingleUser.password = dAUser.password;
-            user.SingleUser.RoleId = dAUser.Role;
-            return user;
-        }
-        public User Map(UserViewModel dAUser)
-        {
-            User user = new User();
-            user.ID = dAUser.SingleUser.ID;
-            user.UserName = dAUser.SingleUser.UserName;
-            user.password = dAUser.SingleUser.password;
-            user.Role = dAUser.SingleUser.RoleId;
-            return user;
-        }
+       
+      
+        
     }
 }
 

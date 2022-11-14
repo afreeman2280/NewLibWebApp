@@ -67,7 +67,11 @@ namespace BusinessLogicClassLibrary
         {
             return inventory.GetAllBookInventory();
         }
-       
-       
+
+        public List<BookInventory> GetUserCheckedOutBooks(int id)
+        {
+            return inventory.GetUserCheckedOutBooks(id);
+        }
+
     }
 }

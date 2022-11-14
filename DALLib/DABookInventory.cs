@@ -71,23 +71,25 @@ namespace DALLib
             }
 
         }
-        public BookInventory GetUserCheckedOutBooks(int Id)
+
+        public List<BookInventory> GetUserCheckedOutBooks(int Id)
         {
+            List<BookInventory> list = new List<BookInventory>();
+
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-
                     using (SqlCommand cmd = new SqlCommand("GetUsersCheckedOutBooks", con))
                     {
-
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 30;
                         cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Id;
 
-                        cmd.CommandTimeout = 30;
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
+                            BookInventory Book;
 
                             while (reader.Read())
                             {
@@ -97,10 +99,12 @@ namespace DALLib
                                     BookId = (int)reader["BookId"],
                                     UserId = (int)reader["UserId"],
                                     CheckedIn = (bool)(reader)["CheckedOut"],
-                                    checkintime = (DateTime)(reader)["CheckedInTime"],
-                                    checkOut = (DateTime)(reader)["CheckedOutTime"],
+                                    //  checkintime = (DateTime)(reader)["CheckedInTime"],
+                                    //  checkOut = (DateTime)(reader)["CheckedOutTime"],
+
 
                                 };
+                                list.Add(Book);
 
                             }
                         }
@@ -108,15 +112,61 @@ namespace DALLib
                     }
                 }
 
-                return Book;
+                return list;
             }
             catch (Exception ex)
             {
                 insertErrorLog(ex);
-                return new BookInventory();
+                return new List<BookInventory>();
             }
 
         }
+        //public BookInventory GetUserCheckedOutBooks(int Id)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(connectionString))
+        //        {
+
+        //            using (SqlCommand cmd = new SqlCommand("GetUsersCheckedOutBooks", con))
+        //            {
+
+        //                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int)).Value = Id;
+
+        //                cmd.CommandTimeout = 30;
+        //                con.Open();
+        //                using (SqlDataReader reader = cmd.ExecuteReader())
+        //                {
+
+        //                    while (reader.Read())
+        //                    {
+        //                        Book = new BookInventory
+        //                        {
+        //                            ID = (int)reader["Id"],
+        //                            BookId = (int)reader["BookId"],
+        //                            UserId = (int)reader["UserId"],
+        //                            CheckedIn = (bool)(reader)["CheckedOut"],
+        //                            checkintime = (DateTime)(reader)["CheckedInTime"],
+        //                            checkOut = (DateTime)(reader)["CheckedOutTime"],
+
+        //                        };
+
+        //                    }
+        //                }
+
+        //            }
+        //        }
+
+        //        return Book;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        insertErrorLog(ex);
+        //        return new BookInventory();
+        //    }
+
+        //}
     
         public List<BookInventory> Test(int Bookid,int userid)
         {
