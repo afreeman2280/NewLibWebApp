@@ -28,7 +28,7 @@
                 <td>@Html.DisplayFor(m => book.CheckedIn)</td>
                 <td>@Html.DisplayFor(m => book.checkInTime)</td>
                 <td>@Html.DisplayFor(m => book.checkOutTime)</td>
-                <td>@Html.ActionLink("Check In", "RemoveBookInventory", "BookInventory", routeValues: new { BookId = book.BookId }, htmlAttributes: new { @class = "btn btn-primary btn-large",onclick = "return confirm('Are you sure you want to delete this Item?')" })</td>
+                <td>@Html.ActionLink("Check In", "RemoveBookInventory", "BookInventory", routeValues: new { BookId = book.BookId }, htmlAttributes: new { @class = "btn btn-primary btn-large",onclick = "return confirm('Are you sure you want to check in this book?')" })</td>
 
 
 

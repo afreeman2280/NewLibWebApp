@@ -5,7 +5,7 @@
     ViewData["Title"] = "ViewBook";
 }
 
-<h1>Books</h1>
+<h1>Search results</h1>
 
 <div>
 
@@ -23,15 +23,16 @@
                 <td>@Html.DisplayFor(m =>book.ID)</td>
                 <td>@Html.DisplayFor(m => book.Bookname)</td>
                 <td>@Html.DisplayFor(m => book.Author)</td>
-                    @if (Context.Session.GetInt32("RoleId") == 2)
+                    @if(Context.Session.GetInt32("Id") == 2 )
                     {
-                    <td>@Html.ActionLink("Check out", "ViewBook", "Book", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
+                    <td>@Html.ActionLink("Check out", "AddBooksInventory", "BookInventory", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
 
+                    <td>@Html.ActionLink("Check in", "Checkin", "BookInventory", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
 
                     }
-                    else if (Context.Session.GetInt32("RoleId") == 3)
+                    else if (Context.Session.GetInt32("Id") == 3)
                     {
-                    <td>@Html.ActionLink("Check out", "ViewBook", "Book", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
+                <td>@Html.ActionLink("Check out", "AddBooksInventory", "BookInventory", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
                     <td>@Html.ActionLink("Check in", "Checkin", "BookInventory", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
 
                     <td>@Html.ActionLink("Update Book", "UpdateBook", "Book", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
@@ -43,7 +44,4 @@
             }
 
     </table>
-    @if (Context.Session.GetInt32("Id") == 4) {
-        @Html.ActionLink("Add Book", "AddBook", "Book", htmlAttributes: new { @class = "btn btn-primary btn-large" })
-    }
 </div>

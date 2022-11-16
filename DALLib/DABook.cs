@@ -67,6 +67,53 @@ namespace DALLib
             }
 
         }
+        public List<Book> Search(string str)
+        {
+            List<Book> list = new List<Book>();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Search", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@searchString", SqlDbType.VarChar)).Value = str;
+
+                        cmd.CommandTimeout = 30;
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            Book Book;
+
+                            while (reader.Read())
+                            {
+                                Book = new Book
+                                {
+                                    ID = (int)reader["Id"],
+                                    BookName = (string)reader["Bookname"],
+                                    Author = (string)reader["Author"],
+                                    // Role = reader["RoleID"] is DBNull ? 1 : (int)reader["RoleID"],
+
+
+                                };
+                                list.Add(Book);
+
+                            }
+                        }
+
+                    }
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                insertErrorLog(ex);
+                return new List<Book>();
+            }
+
+        }
         public Book GetBook(int Id)
         {
             try

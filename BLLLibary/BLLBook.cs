@@ -82,7 +82,11 @@ namespace BLLLibary
         {
             return book.GetAllBook();
         }
-
+        public List<Book> SearchBooks(string str)
+        {
+            List<Book> books = book.Search(str);
+            return books;
+        }
 
 
     }

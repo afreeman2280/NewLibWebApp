@@ -27,16 +27,16 @@ namespace NewLibWebApp.Controllers
             viewModel.AllBooks = Mapper(boBooks);
             return View(viewModel);
         }
-        [HttpGet]
-        public ActionResult ViewBooksInventory(int id)
-        {
-            BookInventoryViewModel viewModel = new BookInventoryViewModel();
+        //[HttpGet]
+        //public ActionResult ViewBooksInventory(int id)
+        //{
+        //    BookInventoryViewModel viewModel = new BookInventoryViewModel();
 
-            viewModel.AllBooks = new List<BookInventoryModel>();
-            List<BookInventory> boBooks = bookInventory.getAllBookInventory();
-            viewModel.AllBooks = Mapper(boBooks);
-            return View(viewModel);
-        }
+        //    viewModel.AllBooks = new List<BookInventoryModel>();
+        //    List<BookInventory> boBooks = bookInventory.getAllBookInventory();
+        //    viewModel.AllBooks = Mapper(boBooks);
+        //    return View(viewModel);
+        //}
         [HttpGet]
         public ActionResult ViewUserBookInventory(int id)
         {
@@ -60,21 +60,16 @@ namespace NewLibWebApp.Controllers
         }
         
         [HttpPost]
-        public ActionResult AddBooksInventory(BookInventoryViewModel BookVm)
+        public ActionResult AddBooksInventory(BookViewModel BookVm)
         {
             BLLBookInventory _Bll = new BLLBookInventory();
-            BookInventory boBook = mapper.Map(BookVm);
+         //   BookInventory boBook = mapper.Map(BookVm);
             string actionResult = "ViewBooks";
             string controller = "Book";
-            _Bll.addToBookInventory(boBook);
-            if (ModelState.IsValid == false)
-            {
-                return View();
-            }
-            else
-            {
+            _Bll.addBookToInventory(BookVm.SingleBook.ID, (int)HttpContext.Session.GetInt32("Id"));
+            
                 return RedirectToAction(actionResult, controller);
-            }
+            
         }
         [HttpGet]
         public ActionResult CheckIn(int BookID)

@@ -1,0 +1,39 @@
+﻿@model NewLibWebApp.Models.BookViewModel
+@using Microsoft.AspNetCore.Http
+@using NewLibWebApp.Models
+@{
+    ViewBag.Title = "UpdateBook";
+}
+
+<h2> Book</h2>
+@using (Html.BeginForm("AddBooksInventory", "BookInventory", FormMethod.Post))
+{
+    
+    @Html.HiddenFor(m => m.SingleBook.ID)
+
+
+    <div>
+
+            @Html.HiddenFor(m => m.SingleBook.ID)
+           
+
+           
+            @Html.LabelFor(m => m.SingleBook.Bookname)
+            @Html.DisplayFor(m => m.SingleBook.Bookname)
+
+            
+
+        </div>
+        <div>
+            @Html.HiddenFor(m => m.SingleBook.ID)
+            @Html.LabelFor(m => m.SingleBook.Author)
+            @Html.DisplayFor(m =>m.SingleBook.Author)
+
+
+            
+
+        </div>
+
+
+  <input type="Submit" value="Check out" />
+}

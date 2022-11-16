@@ -27,6 +27,10 @@
                         {
                     @Html.ActionLink("Sign Out", "SignOut", "Home", new { area = "" }, new { @class = "navbar-brand navbar-right" })
                     }
+                    <form asp-controller="Book" asp-action="Search" class="form-inline my-2 my-lg-0">
+                        <input class="form-control text-light bg-secondary border-secondary mr-sm-2" type="text" id="expr" name="expr" aria-label="Search">
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
 
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:20px">
@@ -37,14 +41,17 @@
                                     <ul class="dropdown-menu">
 
                                        <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="ViewBooks">View Books</a>
-                                       @if(Context.Session.GetInt32("Id") >= 3)
-                                       {
-                                     <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ViewUsers">View Users</a>
-                                       }
-                                     <a class="nav-link text-dark" asp-area="" asp-controller="BookInventory" asp-action="ViewBooksInventory">Book Inventory</a>
-                            @Html.ActionLink("View Inventory", "ViewUserBookInventory", "BookInventory", routeValues: new { id =Context.Session.GetInt32("Id") })
+                                       @if (Context.Session.GetString("Username") != null)
+                            {
+                                @if (Context.Session.GetInt32("RoleId") >= 3)
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ViewUsers">View Users</a>
 
-                                    </ul>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="BookInventory" asp-action="ViewBooksInventory">Book Inventory</a>
+                                }
+                                @Html.ActionLink("View Inventory", "ViewUserBookInventory", "BookInventory", routeValues: new { id =Context.Session.GetInt32("Id") })
+                            }
+                        </ul>
                                 </div>
                          
 
