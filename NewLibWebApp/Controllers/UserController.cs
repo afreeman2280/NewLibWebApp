@@ -63,10 +63,9 @@ namespace NewLibWebApp.Controllers
             User boUser = Map(userVm);
 
             User storedUser = user.getUserByUserName(userVm.SingleUser.UserName);
+            loginCheck = user.Login(storedUser.password, user.GetHash(boUser.password));
 
-            loginCheck = user.Login(storedUser.password, boUser.password);
-
-            if (loginCheck == true && ModelState.IsValid)
+            if (loginCheck == true)
             {
                 HttpContext.Session.SetInt32("Id", storedUser.ID);
                 HttpContext.Session.SetString("Username", storedUser.UserName);

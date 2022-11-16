@@ -20,7 +20,8 @@
         <div>
             @Html.LabelFor(m => m.SingleUser.password)
 
-            @Html.PasswordFor(m => m.SingleUser.password, new { @class = "DivTextBoxPlaceMentforPassword" })
+            @Html.PasswordFor(m => m.SingleUser.password, new { @class = "far fa-eye id=togglePassword style=margin-left: -30px; cursor: pointer;" })
+            <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
             @Html.ValidationMessageFor(m => m.SingleUser.password)
         </div>
         <div>
@@ -29,6 +30,37 @@
             @Html.ValidationMessageFor(m => m.SingleUser.RoleId)
 
         </div>
+        <div>
+            @Html.LabelFor(m => m.SingleUser.FirstName)
+
+            @Html.TextBoxFor(m => m.SingleUser.FirstName, new { @class = "DivTextBoxPlaceMent" })
+            @Html.ValidationMessageFor(m => m.SingleUser.FirstName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.SingleUser.LastName)
+
+            @Html.TextBoxFor(m => m.SingleUser.LastName, new { @class = "DivTextBoxPlaceMent" })
+            @Html.ValidationMessageFor(m => m.SingleUser.LastName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.SingleUser.Email)
+
+            @Html.TextBoxFor(m => m.SingleUser.Email, new { @class = "DivTextBoxPlaceMent" })
+            @Html.ValidationMessageFor(m => m.SingleUser.Email)
+        </div>
         <input type="Submit" value="Submit" />
     </div>
+ 
 }
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#id_password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
