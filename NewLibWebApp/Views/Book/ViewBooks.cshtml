@@ -29,7 +29,7 @@
 
 
                     }
-                    else if (Context.Session.GetInt32("RoleId") == 3)
+                    else if (Context.Session.GetInt32("RoleId") >= 3)
                     {
                     <td>@Html.ActionLink("Check out", "ViewBook", "Book", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>
                     <td>@Html.ActionLink("Check in", "Checkin", "BookInventory", routeValues: new { BookId = book.ID }, htmlAttributes: new { @class = "btn btn-primary btn-large" })</td>

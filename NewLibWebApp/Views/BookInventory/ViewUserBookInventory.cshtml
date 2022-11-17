@@ -14,7 +14,11 @@
         <tr>
             <th>Id</th>
             <th>User ID</th>
+            <th>User</th>
+
             <th>Book ID</th>
+            <th>Book</th>
+
             <th>Book Checked In</th>
             <th>Check In Time</th>
             <th>Check Out Time</th>
@@ -24,10 +28,15 @@
             <tr>
                 <td>@Html.DisplayFor(m =>book.ID)</td>
                 <td>@Html.DisplayFor(m => book.UserId)</td>
+                <td>@Html.DisplayFor(s => s.User.UserName)</td>
+
                 <td>@Html.DisplayFor(m => book.BookId)</td>
+                <td>@Html.DisplayFor(s => s.book.Bookname)</td>
+
                 <td>@Html.DisplayFor(m => book.CheckedIn)</td>
                 <td>@Html.DisplayFor(m => book.checkInTime)</td>
                 <td>@Html.DisplayFor(m => book.checkOutTime)</td>
+
                 <td>@Html.ActionLink("Check In", "RemoveBookInventory", "BookInventory", routeValues: new { BookId = book.BookId }, htmlAttributes: new { @class = "btn btn-primary btn-large",onclick = "return confirm('Are you sure you want to check in this book?')" })</td>
 
 

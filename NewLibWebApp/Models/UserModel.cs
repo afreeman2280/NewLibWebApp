@@ -10,7 +10,7 @@ namespace NewLibWebApp.Models
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "The User Name is required")]
         [Valid(name:true,ErrorMessage ="Username already exist")]
-        public   string UserName { get; set; }
+        public  string UserName { get; set; }
         [Display(Name = "Password")]
       //  [Range(8,15,ErrorMessage = "Length Should be between 8 and 15 Charcters")]
         [RegularExpression("[A-Za-z\\d!@#$%^&*()_+]{7,19}",ErrorMessage ="Password must contain at least 1 Upper and Lower case Character and 1 Special Character")]

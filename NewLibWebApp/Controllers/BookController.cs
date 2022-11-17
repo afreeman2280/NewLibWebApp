@@ -49,7 +49,7 @@ namespace NewLibWebApp.Controllers
             BookViewModel bookModels = new BookViewModel();
             bookModels.AllBooks = new List<BookModel>();
             bookModels.AllBooks = Mapp(books);
-            if (books == null) { return RedirectToAction("ViewBooks"); }
+            if (books == null|| books.Count == 0 ) { return RedirectToAction("ViewBooks"); }
             
             return View(bookModels);
         }

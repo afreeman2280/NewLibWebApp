@@ -20,8 +20,8 @@
         <div>
             @Html.LabelFor(m => m.SingleUser.password)
 
-            @Html.PasswordFor(m => m.SingleUser.password, new { @class = "far fa-eye id=togglePassword style=margin-left: -30px; cursor: pointer;" })
-            <i class="far fa-eye" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+            @Html.PasswordFor(m => m.SingleUser.password, new { @class = "far fa-eye id=Password name=Password style=margin-left: -30px; cursor: pointer;data-toggle=password" })
+
             @Html.ValidationMessageFor(m => m.SingleUser.password)
         </div>
         <div>
@@ -52,15 +52,3 @@
     </div>
  
 }
-<script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#id_password');
-
-    togglePassword.addEventListener('click', function (e) {
-        // toggle the type attribute
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        // toggle the eye slash icon
-        this.classList.toggle('fa-eye-slash');
-    });
-</script>

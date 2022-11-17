@@ -52,7 +52,7 @@ namespace BLLLibary
             List<User> userList = user.GetAllUser();
 
             result= userList.Any(p => p.UserName == id);
-            return result;
+            return !result;
         }
         public void removeUser(int id)
         {

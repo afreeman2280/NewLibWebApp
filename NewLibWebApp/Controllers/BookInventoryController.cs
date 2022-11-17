@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using NewLibWebApp.Models;
 using CommonLib;
 using BusinessLogicClassLibrary;
+using System;
+using System.Net;
 
 namespace NewLibWebApp.Controllers
 {
     public class BookInventoryController : Controller
     {
         BLLBookInventory bookInventory = new BLLBookInventory();
-        Mapper mapper;
         // GET: BookInventoryController
         public ActionResult Index()
         {
@@ -21,44 +22,78 @@ namespace NewLibWebApp.Controllers
         public ActionResult ViewBooksInventory()
         {
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
-
+            BLLBook bLLBook = new BLLBook();
             viewModel.AllBooks = new List<BookInventoryModel>();
             List<BookInventory> boBooks = bookInventory.getAllBookInventory();
+            List<Book> books = bLLBook.getAllBook();
             viewModel.AllBooks = Mapper(boBooks);
+            viewModel.listofbook = Mapper(books);
             return View(viewModel);
         }
-        //[HttpGet]
-        //public ActionResult ViewBooksInventory(int id)
-        //{
-        //    BookInventoryViewModel viewModel = new BookInventoryViewModel();
 
-        //    viewModel.AllBooks = new List<BookInventoryModel>();
-        //    List<BookInventory> boBooks = bookInventory.getAllBookInventory();
-        //    viewModel.AllBooks = Mapper(boBooks);
-        //    return View(viewModel);
-        //}
+        public List<BookModel> Mapper(List<Book> dABooks)
+        {
+            List<BookModel> BookList = new List<BookModel>();
+
+            foreach (Book dABook in dABooks)
+            {
+                BookModel Book = new BookModel();
+                Book.ID = dABook.ID;
+                Book.Bookname = dABook.BookName;
+                Book.Author = dABook.Author;
+                BookList.Add(Book);
+            }
+            return BookList;
+        }
+
         [HttpGet]
         public ActionResult ViewUserBookInventory(int id)
         {
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
-            id = (int)HttpContext.Session.GetInt32("Id");
+            BLLBook book = new BLLBook();
+            BLLUser user = new BLLUser();
             viewModel.AllBooks = new List<BookInventoryModel>();
+            
+            viewModel.User = Map(user.getUser(id));
             List<BookInventory> boBooks = bookInventory.GetUserCheckedOutBooks(id);
             viewModel.AllBooks = Mapper(boBooks);
             return View(viewModel);
         }
+
+        private UserModel Map(User user)
+        {
+            UserModel userModel = new UserModel();
+            userModel.ID = user.ID;
+            userModel.UserName = user.UserName;
+            userModel.password = user.password;
+            return userModel;
+        }
+
         [HttpGet]
         public ActionResult AddBooksInventory(int BookID)
         {
             int BookInventoryID = (int)HttpContext.Session.GetInt32("Id");
             BookInventoryViewModel viewModel = new BookInventoryViewModel();
+            BLLBook book = new BLLBook();
+          
 
             viewModel.AllBooks = new List<BookInventoryModel>();
+            viewModel.book = new BookModel();
+            viewModel.book = Map(book.getBook(BookID));
             List<BookInventory> boBook = bookInventory.Test(BookID,BookInventoryID);
             viewModel.AllBooks = Mapper(boBook);
             return View(viewModel);
         }
-        
+
+        private BookModel Map(Book book)
+        {
+            BookModel bookModel = new BookModel();
+            bookModel.ID = book.ID;
+            bookModel.Bookname = book.BookName;
+            bookModel.Author = book.Author;
+            return bookModel;
+        }
+
         [HttpPost]
         public ActionResult AddBooksInventory(BookViewModel BookVm)
         {
@@ -89,7 +124,7 @@ namespace NewLibWebApp.Controllers
         public ActionResult CheckIn(BookInventoryViewModel BookVm)
         {
             BLLBookInventory _Bll = new BLLBookInventory();
-            BookInventory boBook = mapper.Map(BookVm);
+            BookInventory boBook = Mapper(BookVm);
             string actionResult = "ViewUserBookInventory";
             string controller = "BookInventory";
             _Bll.checkedInInventory(boBook);
@@ -102,7 +137,17 @@ namespace NewLibWebApp.Controllers
                 return RedirectToAction(actionResult, controller);
             }
         }
-       
+
+        private BookInventory Mapper(BookInventoryViewModel bookVm)
+        {
+            BookInventory bookInventory = new BookInventory();
+            bookInventory.ID = bookVm.SingleBook.ID;
+            bookInventory.BookId = bookVm.SingleBook.BookId;
+            bookInventory.UserId = bookVm.SingleBook.UserId;
+            bookInventory.CheckedIn = bookVm.SingleBook.CheckedIn;
+            return bookInventory;
+        }
+
         public List<BookViewModel> Map(List<BLLBook> dABooks)
         {
             List<BookViewModel> BookList = new List<BookViewModel>();
@@ -167,7 +212,7 @@ namespace NewLibWebApp.Controllers
             }
             return BookList;
         }
- 
+       
 
 
     }

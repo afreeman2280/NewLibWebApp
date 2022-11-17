@@ -30,7 +30,7 @@
                     }
                     <form asp-controller="Book" asp-action="Search" class="form-inline my-2 my-lg-0">
                         <input class="form-control text-light bg-secondary border-secondary mr-sm-2" type="text" id="expr" name="expr" aria-label="Search">
-                        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
                     </form>
 
                                 <div class="dropdown">
@@ -42,15 +42,18 @@
                                     <ul class="dropdown-menu">
 
                                        <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="ViewBooks">View Books</a>
+                            @Html.ActionLink("User Information", "UpdateUser", "User", routeValues: new { id = Context.Session.GetInt32("Id")}, htmlAttributes: new { @class = "nav-link text-dark" })
+
                                        @if (Context.Session.GetString("Username") != null)
                             {
                                 @if (Context.Session.GetInt32("RoleId") >= 3)
                                 {
                                     <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ViewUsers">View Users</a>
 
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="BookInventory" asp-action="ViewBooksInventory">Book Inventory</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="BookInventory" asp-action="ViewBooksInventory">All Checked Out Books</a>
                                 }
-                                @Html.ActionLink("View Inventory", "ViewUserBookInventory", "BookInventory", routeValues: new { id =Context.Session.GetInt32("Id") })
+                                @Html.ActionLink("Checked Out Books", "ViewUserBookInventory", "BookInventory", routeValues: new { id = Context.Session.GetInt32("Id")}, htmlAttributes: new { @class = "nav-link text-dark" })
+
                             }
                         </ul>
                                 </div>

@@ -89,7 +89,6 @@ namespace NewLibWebApp.Controllers
         public ActionResult UpdateUser(int UserID)
         {
             BLLUser _bll = new BLLUser();
-            x = UserID;
             User storedUser = _bll.getUser(UserID);
             UserViewModel User = Map(storedUser);
             return View(User);
@@ -103,11 +102,7 @@ namespace NewLibWebApp.Controllers
             User boUser = Map(UserTobeUpdated);
 
             _Bll.UpdateUser(boUser, UserTobeUpdated.SingleUser.ID);
-            if (ModelState.IsValid == false)
-            {
-
-                return View();
-            }
+          
 
             return RedirectToAction(actionResult, controller);
         }

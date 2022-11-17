@@ -15,10 +15,17 @@ namespace NewLibWebApp.Utlities
         {
             bool result;
             BLLUser u = new BLLUser();
-            string x = value.ToString();
+            if (value == null)
+            {
+                result = false;
+            }
+            else
+            {
+                string x = value.ToString();
 
-            result = u.userExist(x);
-            return !result;
+                result = u.userExist(x);
+            }
+            return result;
         }
     }
 }
